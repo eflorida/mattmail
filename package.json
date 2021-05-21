@@ -1,0 +1,11 @@
+{
+  "name": "mattmail",
+  "version": "1.0.0",
+  "description": "email processing tool",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Erik Florida",
+  "license": "ISC"
+}
