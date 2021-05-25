@@ -1,9 +1,9 @@
-export const handleEmail = async (data) => {
+const handleEmail = async (data) => {
     console.log('data :: ', data)
     return data
 }
 
-export const getWebsiteData = async (data) => {
+const getWebsiteData = async (data) => {
     const e = require('express')
     const puppeteer = require('puppeteer-extra')
     const stealth = require('puppeteer-extra-plugin-stealth')()
@@ -46,9 +46,9 @@ export const getWebsiteData = async (data) => {
     })
 }
 
-export const sendDataToZappier = async () => {}
+const sendDataToZappier = async () => {}
 
-export default {
+module.exports = {
     handleEmail,
     getWebsiteData,
     sendDataToZappier,

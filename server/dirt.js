@@ -15,3 +15,5 @@ router.post('/landflip', async (data) => {
         res.send({ error: 'something went wrong...', response: error })
     }
 })
+
+module.exports = router

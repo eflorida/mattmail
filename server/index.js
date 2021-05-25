@@ -1,4 +1,4 @@
-const configServer = require('./serverConfig')
+const configServer = require('./config')
 const path = require('path')
 let server = configServer()
 
