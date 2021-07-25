@@ -2,7 +2,6 @@ const configServer = () => {
     const express = require('express')
     const cors = require('cors')
     const logger = require('pino')()
-    const bodyParser = require('body-parser')
 
     let server = express()
 
@@ -11,7 +10,8 @@ const configServer = () => {
         optionsSuccessStatus: 200,
     }
 
-    server.use(bodyParser.json())
+    server.use(express.urlencoded({extended: true}));
+    server.use(express.json())
     server.use('/app', express.static('dist'))
     server.use('/public', express.static('public'))
     server.use(cors(corsOptions))

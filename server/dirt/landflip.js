@@ -1,4 +1,3 @@
-const DomParser = require('dom-parser')
 const cheerio = require('cheerio')
 
 const handleEmail = (data = {}) => {
