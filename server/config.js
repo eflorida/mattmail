@@ -1,25 +1,20 @@
 const configServer = () => {
     const express = require('express')
-    const cors = require('cors')
     const logger = require('pino')()
+    const cors = require('cors')
 
+    const currentPort = process.env.PORT || 8080
     let server = express()
 
-    const corsOptions = {
-        origin: process.env.MARKET_ACAO,
-        optionsSuccessStatus: 200,
-    }
-
-    server.use(express.urlencoded({extended: true}));
+    server.use(cors({origin: 'https://www.landflip.com'}))
+    server.use(express.urlencoded({extended: true}))
     server.use(express.json())
     server.use('/app', express.static('dist'))
     server.use('/public', express.static('public'))
-    server.use(cors(corsOptions))
-    server.options('*', cors())
 
-    server.listen(process.env.PORT || 8080, (error) => {
+    server.listen(currentPort, (error) => {
         if (error) logger.error('Matt-mail faild to start :: ', error)
-        logger.info(`Matt-mail started! Running on port ${process.env.PORT || 8080}`)
+        logger.info(`Matt-mail started! Running on port ${currentPort}`)
     })
 
     return server

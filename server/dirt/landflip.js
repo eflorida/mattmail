@@ -1,15 +1,51 @@
 const cheerio = require('cheerio')
+const fetch = require('node-fetch')
+var axios = require('axios')
 
 const handleEmail = (data = {}) => {
     if(!data.envelope) return {}
     const envelope = data.envelope
     const $ = cheerio.load(data.html, null, false)
-    const links = Array.from($('a'))
-    const landUrl = links && links.length > 0 ? links.find(a => a.innerText === 'VIEW LAND').href : 'unknown'
-    return { landUrl, envelope, rawHtml: data.html }
+    const imageList = Array.from($('a>img'))
+    const landIds = imageList.map(img => $(img).attr('src') && $(img).attr('src').includes('https://www.landflip.com/photos/')
+        ? $(img).attr('src').split('https://www.landflip.com/photos/')[1].split('/')[0]
+        : undefined).filter(imgUrl => imgUrl !== undefined)
+    // console.log('handleEmail :: landIds :: ', landIds)
+    const landId = [...new Set(landIds)][0]
+    // console.log('handleEmail :: landId :: ', landId)
+    return { landId, senderEmail: envelope.from,  }
 }
 
-const getWebsiteData = async (data) => {
+const getWebsiteData = async (landId = "") => {
+    const url = `https://www.landflip.com/land/${landId}`
+    var config = {
+        method: 'get',
+        url,
+      }
+      
+      return await axios(config)
+      .then(response => {
+        return response.data
+      })
+      .then(data => {
+        const $ = cheerio.load(data, null, false)
+        let itemList = Array.from($('.item'))
+        const parcelNumber = itemList
+            .map((item, index) => {
+                if($(item).text() === 'Assessor Parcel Number (APN)') {
+                    return $(itemList[index + 1]).text()
+                }
+            })
+            .filter(item => item !== undefined)[0]
+        // console.log('getWebsiteData :: parcelNumber :: ', parcelNumber)
+        return { parcelNumber }
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+}
+
+const samplePuppeteer = async () => {
     const e = require('express')
     const puppeteer = require('puppeteer-extra')
     const stealth = require('puppeteer-extra-plugin-stealth')()
