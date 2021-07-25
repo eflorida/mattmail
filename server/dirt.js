@@ -3,12 +3,13 @@ const landflip = require('./landflip')
 
 let router = express.Router()
 
-router.post('/landflip', async (data) => {
+router.post('/landflip', async (req, res) => {
     try {
-        const emailData = await landflip.handleEmail(data)
-        const aggregateData = await landflip.getWebsiteData(emailData)
-        const zapierResponse = await landflip.sendDataToZappier(aggregateData)
-        res.statusCode = zapierResponse ? 200 : 503
+        console.log('Trying to process email...')
+        const emailData = await landflip.handleEmail(req.body)
+        // const aggregateData = await landflip.getWebsiteData(emailData)
+        // const zapierResponse = await landflip.sendDataToZappier(aggregateData)
+        res.statusCode = emailData ? 200 : 503
         res.json({ result: 'success', data: aggregateData, zapierResponse })
     } catch (error) {
         res.statusCode = 503

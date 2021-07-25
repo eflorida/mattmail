@@ -1,6 +1,14 @@
+const DomParser = require('dom-parser')
+
 const handleEmail = async (data) => {
-    console.log('data :: ', data)
-    return data
+    const parser = new DomParser()
+    console.log('About to handle email data...')
+    const envelope = data.envelope
+    console.log('email :: envelope :: ', envelope)
+    console.log('email :: rawHtml :: ', data.html)
+    const html = parser.parseFromString(data.html)
+    console.log('html :: ', html.querySelector('div').innerText)
+    return { html, envelope }
 }
 
 const getWebsiteData = async (data) => {
