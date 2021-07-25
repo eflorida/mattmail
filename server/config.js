@@ -18,8 +18,8 @@ const configServer = () => {
     server.options('*', cors())
 
     server.listen(process.env.PORT || 8080, (error) => {
-        if (error) logger.error('Aurora-Harmony faild to start :: ', error)
-        logger.info(`Aurora-Harmony started! Running on port ${process.env.PORT || 8080}`)
+        if (error) logger.error('Matt-mail faild to start :: ', error)
+        logger.info(`Matt-mail started! Running on port ${process.env.PORT || 8080}`)
     })
 
     return server

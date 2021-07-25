@@ -1,14 +1,13 @@
 const DomParser = require('dom-parser')
+const cheerio = require('cheerio')
 
-const handleEmail = async (data) => {
-    const parser = new DomParser()
-    console.log('About to handle email data...')
+const handleEmail = (data = {}) => {
+    if(!data.envelope) return {}
     const envelope = data.envelope
-    console.log('email :: envelope :: ', envelope)
-    console.log('email :: rawHtml :: ', data.html)
-    const html = parser.parseFromString(data.html)
-    console.log('html :: ', html.querySelector('div').innerText)
-    return { html, envelope }
+    const $ = cheerio.load(data.html, null, false)
+    const links = Array.from($('a'))
+    const landUrl = links && links.length > 0 ? links.find(a => a.innerText === 'VIEW LAND').href : 'unknown'
+    return { landUrl, envelope, rawHtml: data.html }
 }
 
 const getWebsiteData = async (data) => {
