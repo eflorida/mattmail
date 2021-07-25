@@ -12,7 +12,7 @@ const handleEmail = (data = {}) => {
         : undefined).filter(imgUrl => imgUrl !== undefined)
     // console.log('handleEmail :: landIds :: ', landIds)
     const landId = [...new Set(landIds)][0]
-    // console.log('handleEmail :: landId :: ', landId)
+    console.log('handleEmail :: landId :: ', landId)
     return { landId, senderEmail: envelope.from,  }
 }
 
@@ -37,7 +37,7 @@ const getWebsiteData = async (landId = "") => {
                 }
             })
             .filter(item => item !== undefined)[0]
-        // console.log('getWebsiteData :: parcelNumber :: ', parcelNumber)
+        console.log('getWebsiteData :: parcelNumber :: ', parcelNumber)
         return { parcelNumber }
       })
       .catch(function (error) {
