@@ -1,6 +1,6 @@
 const cheerio = require('cheerio')
-const fetch = require('node-fetch')
-var axios = require('axios')
+const axios = require('axios')
+const logger = require('pino')()
 
 const handleEmail = (data = {}) => {
     if(!data.envelope) return {}
@@ -12,7 +12,7 @@ const handleEmail = (data = {}) => {
         : undefined).filter(imgUrl => imgUrl !== undefined)
     // console.log('handleEmail :: landIds :: ', landIds)
     const landId = [...new Set(landIds)][0]
-    console.log('handleEmail :: landId :: ', landId)
+    logger.info(`handleEmail :: landId ::  ${landId}`)
     return { landId, senderEmail: envelope.from,  }
 }
 
@@ -37,11 +37,11 @@ const getWebsiteData = async (landId = "") => {
                 }
             })
             .filter(item => item !== undefined)[0]
-        console.log('getWebsiteData :: parcelNumber :: ', parcelNumber)
+        logger.info(`getWebsiteData :: parcelNumber :: ${parcelNumber}`)
         return { parcelNumber }
       })
       .catch(function (error) {
-        console.log(error)
+        logger.error('axios fetch  :: getWebsiteData :: ', error)
       })
 }
 
